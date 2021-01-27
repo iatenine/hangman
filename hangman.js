@@ -1,7 +1,17 @@
-const ANSWER = "WHEEL OF FORTUNE"
+const ANSWER_BANK = ["WHEEL OF FORTUNE", 'GO',
+'Death Stranding', 'God of War', 'Spider', 'Farcry',
+'Roblox', 'Farsiders', 'Bayonetta', 'Tetris', "Mario",
+'PacMan', 'Galaga', 'Space Invaders', 'Galaxian',
+'ET', 'The Witness', 'Portal', 'Braid', 'Little Nightmares',
+'Star Fox', 'Tomb Raider', 'Crash Bandicoot', 'Uncharted',
+'The Last of Us', 'Jak and Daxter', 'Ratchet and Clank',
+'Burnout', 'Grand Theft Auto', 'Red Dead Redemption', 'Gun',
+'Gone Home', 'Hatred', 'Doom', 'Quake', 'Wolfenstein']
+const ANSWER = ANSWER_BANK[Math.floor(Math.random() * ANSWER_BANK.length)].toUpperCase()
 const LOSE = 6;
 const CHOICES = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const GUESSES = [' '];
+const prompt = require('prompt-sync')({sigint: true});
 
 const TEST_GUESSES = 'aeiourstlnewhf'.split('');
 
@@ -37,22 +47,26 @@ function guessLetter(letter){
 
 
 //main game loop
-let guess = 0;
+let letter;
+console.log(getBoard()+'\n')
 
 do{
-    let response = guessLetter(TEST_GUESSES[guess])
+    do{
+        letter = prompt("Guess a letter: ");
+    } while(!CHOICES.includes(letter.toUpperCase()))
+        
+    let response = guessLetter(letter)
     switch(response){
         case true:
-            console.log("New letter revealed!")
+            console.log("New letter revealed!\n")
             break;
         case false:
-            console.log("Strike " + strikes + " of " + LOSE)
+            console.log("Strike " + strikes + " of " + LOSE + "\n")
             break;
         case null:
-            console.log("Please select a letter you haven't already tried")
+            console.log("Please select a letter you haven't already tried\n")
     }
     console.log(getBoard()+'\n')
-    guess++;
 } while(strikes < LOSE && won == false)
 
 //After game message
